@@ -19,22 +19,35 @@ export default {
       view(editorView) {
         return new SelectionSizeTooltip(editorView);
       },
+      props: {
+        handleClickOn(view, event) {
+          return console.log("click");
+        },
+      },
     });
 
     class SelectionSizeTooltip {
       constructor(view) {
-        const mainDiv = document.createElement("div");
-        mainDiv.innerHTML = `<div id='tool-tip'>
-                            <input placeholder='value' class='input' type='text' />
-                            <div class='separator'></div>
-                            <button class='button'>Correct</button>
-                          </div>`;
-
-        this.tooltip = mainDiv.firstChild;
-
+        this.tooltip = document.createElement("div");
         this.tooltip.className = "tooltip";
+        this.tooltip.id = 'tool-tip';
+
+        this.Input = document.createElement("input");
+        this.Input.className = 'input';
+        this.Input.placeholder = 'value'; 
+        this.Input.type = 'text'; 
+        this.tooltip.append(this.Input);
+
+        const separator = document.createElement("div");
+        separator.className = 'separator';
+        this.tooltip.append(separator);
+
+        this.button = document.createElement("button");
+        this.button.className = 'button';
+        this.button.innerText = 'Correct';
+        this.tooltip.append(this.button);
+
         view.dom.parentNode.appendChild(this.tooltip);
-        this.Input = document.querySelector("input");
         this.update(view, null);
       }
 
